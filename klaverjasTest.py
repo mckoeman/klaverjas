@@ -1,15 +1,30 @@
 import klaverjas as kl
 import treeSearch as ts
 import numpy as np
+
 # testHand=[]
 # testHand.append(kl.Card(7,"s"))
 # testHand.append(kl.Card(8,"d"))
 # testHand.append(kl.Card(11,"d"))
 # testHand.append(kl.Card(8,"s"))
-
+#
 # testTrick = [0]*4
-# testTrick[0] = kl.Card(7,"c")
-# testTrick[1] = kl.Card(8,"c")
+# testTrick[0] = kl.Card(14,"c")
+# testTrick[1] = kl.Card(9,"s")
+# testTrick[2] = kl.Card(7,'h')
+# testTrick[3] = 0
+#
+# hand =[]
+# hand.append(kl.Card(11,'s'))
+# hand.append(kl.Card(7,'s'))
+# hand.append(kl.Card(14,'h'))
+#
+# output = kl.Card.validCards(hand,'s',testTrick)
+#
+#
+# for card in output:
+#     card.printCard()
+
 # testTrick[2] = kl.Card(9,"c")
 # testTrick[3] = kl.Card(14,"c")
 
@@ -19,15 +34,39 @@ import numpy as np
 # leadPlayer = 0 
 # trump = "s"
 
-# print (kl.Card.stringTrick(testTrick,leadPlayer,kl.Card.trick(testTrick,leadPlayer,trump)))\
 
-# np.random.seed(3)
-nrDeals = 1
+nrDeals = 100
+
 score = []
+
+botSetting = [[25, 250], [5, 50], [25, 250],[5, 50]]
+
+botSetting2 = [[10,100]]*4
+randomSeedOffset = 400
+
+deal1Dif = []
+deal2Dif = []
 for i in range(nrDeals):
-    deal = kl.OneDeal(botsSettings = 0,activePlayer = (i%4))
-    score.append(deal.play())
-    deal.gameRecord()
+    np.random.seed(i + randomSeedOffset)
+    print(i)
+    deal1 = kl.OneDeal(botsSettings=botSetting, activePlayer=(i % 4))
+    np.random.seed(i + randomSeedOffset)
+
+    deal2 = kl.OneDeal(botsSettings=botSetting2, activePlayer=(i % 4))
+    score1 = deal1.play()
+    score2 = deal2.play()
+    deal1Dif.append(score1[0]-score1[1])
+    deal2Dif.append(score2[0]-score2[1])
+    #deal.gameRecord()
+team1 = team2 = 0
+
+
+print(sum(deal1Dif))
+print(sum(deal2Dif))
+
+# botSetting = [[20,250]]*4
+
+
 # oneIt = ts.TreeSearch(randomDeal.players, 0, 's', 0)
 # deck = [kl.Card(number, suit) for suit in kl.Card.suits for number in range(7, 15)]
 # players = [[]]*4
